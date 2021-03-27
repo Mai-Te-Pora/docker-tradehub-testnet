@@ -1,0 +1,104 @@
+version: '3.5'
+
+volumes:
+  tradehub-sentry-volume:
+  tradehub-redis-volume:
+  tradehub-postgresql-volume:
+
+services:
+  tradehub-sentry-node:
+    image: tradehub-sentry-node
+    container_name: tradehub-sentry-node
+    build:
+      context: sentry
+      args:
+        NODE_VERSION: "${NODE_VERSION}"
+        NET_VERSION: "${NET_VERSION}"
+        CHAIN_ID: "${CHAIN_ID}"
+        MONIKER: "${SENTRY_MONIKER}"
+        NODE_IP: "${SENTRY_BIND_IP}"
+        PERSISTENT_PEER: "${PERSISTENT_PEER_MAINNET}"
+        PERSISTENT_PEER_API: "${PERSISTENT_PEER_MAINNET_API}"
+        PRIVATE_PEERS: "${PRIVATE_PEERS}"
+        APP_ENV: "${APP_ENV}"
+        NODE_TIMEOUT: "${NODE_TIMEOUT}"
+        TENDERMINT_SERVER_HOST: "${TENDERMINT_SERVER_HOST}"
+        TENDERMINT_SERVER_PORT: "${TENDERMINT_SERVER_PORT}"
+        COSMOS_REST_SERVER_HOST: "${COSMOS_REST_SERVER_HOST}"
+        COSMOS_REST_SERVER_PORT: "${COSMOS_REST_SERVER_PORT}"
+        API_REST_PORT: "${API_REST_PORT}"
+        POSTGRES_HOST: "${POSTGRES_IP}"
+        POSTGRES_PORT: "${POSTGRES_PORT}"
+        POSTGRES_DB: "${POSTGRES_DB}"
+        POSTGRES_USER: "${POSTGRES_USER}"
+        REDIS_HOST: "${REDIS_IP}"
+        REDIS_PORT: "${REDIS_PORT}"
+        LOG_TO_FILE: "${LOG_TO_FILE}"
+        LOG_LEVEL: "${LOG_LEVEL}"
+        SWTH_UPGRADER: "${SWTH_UPGRADER}"
+        SEND_ETH_TXNS: "${SEND_ETH_TXNS}"
+        WALLET_PASSWORD: "${WALLET_PASSWORD}"
+    ports:
+      - "${TENDERMINT_P2P_PORT}:${TENDERMINT_P2P_PORT}"
+      - "${API_REST_PORT}:${API_REST_PORT}"
+      - "${REST_WS_PORT}:${REST_WS_PORT}"
+      - "${TENDERMINT_SERVER_PORT}:${TENDERMINT_SERVER_PORT}"
+      - "${COSMOS_REST_SERVER_PORT}:${COSMOS_REST_SERVER_PORT}"
+    depends_on:
+      - tradehub-redis
+      - tradehub-postgresql
+    volumes:
+      - ./sentry/init.sh:/root/init.sh
+      - ./config/genesis.json:/root/.switcheod/config/genesis.json
+      - ./config/val_key:/root/.key/val_key
+      - ./config/node_key.json:/root/.switcheod/config/node_key.json
+      - ./config/priv_validator_key.json:/root/.switcheod/config/priv_validator_key.json
+      - tradehub-sentry-volume:/root
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      tradehub:
+        ipv4_address: "${SENTRY_IP}"
+
+  tradehub-redis:
+    image: "redis:alpine"
+    container_name: tradehub-redis
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    expose:
+      - "${REDIS_PORT}"
+    volumes:
+      - tradehub-redis-volume:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    networks:
+      tradehub:
+        ipv4_address: "${REDIS_IP}"
+
+  tradehub-postgresql:
+    image: postgres:10-alpine
+    container_name: tradehub-postgresql
+    environment:
+      POSTGRES_PORT: "${POSTGRES_PORT}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_HOST_AUTH_METHOD: trust
+    expose:
+      - "${POSTGRES_PORT}"
+    volumes:
+      - tradehub-postgresql-volume:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      tradehub:
+        ipv4_address: "${POSTGRES_IP}"
+
+networks:
+  tradehub:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "${SUBNET}"

@@ -1,0 +1,10 @@
+Id
+5458e130040cc8789994c4289f95fdef38f9ed60
+Validator Cons Addr
+swthvalconspub1zcjduepqfrtxzp3zc4hnxqxlqlkr3atgfkg95jpt9suk4hs6lr7cy4psvs8s5wp5dt
+Cons Addr
+swthvalcons1v6m84paefjr82v344k3hdtj2z7tlwt3kr6tdtz
+Validator Addr
+swthvaloper1ws39vvp0cvgthc60fzp6080dn2trd33ecugz5h
+GenTx
+switcheod gentx --amount 100000000000swth --pubkey swthvalconspub1zcjduepqfrtxzp3zc4hnxqxlqlkr3atgfkg95jpt9suk4hs6lr7cy4psvs8s5wp5dt --commission-max-change-rate 0.010000000000000000 --commission-max-rate 0.200000000000000000 --commission-rate 0.100000000000000000 --min-self-delegation 1 --name val_key --keyring-backend file
