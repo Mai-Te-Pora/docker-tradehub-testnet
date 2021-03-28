@@ -15,7 +15,6 @@ export DAEMON_HOME=${HOME}/.switcheod
 export DAEMON_ALLOW_DOWNLOAD_BINARIES=true
 export PATH=${HOME}/.switcheod/cosmovisor/current/bin:${HOME}/.switcheod/cosmovisor/genesis/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
-# sleep 10000
 # Start oracle
 WALLET_PASSWORD=$wallet bash -c "exec -a oracle_process switcheod start --oracle --exclude=\"db,cosmos-rest\" --exclude-node &"
 status=$?

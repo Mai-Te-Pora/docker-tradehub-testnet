@@ -4,6 +4,7 @@ volumes:
   tradehub-sentry-volume:
   tradehub-redis-volume:
   tradehub-postgresql-volume:
+  blockexplorer-data:
 
 services:
   tradehub-sentry-node:
@@ -94,6 +95,37 @@ services:
     networks:
       tradehub:
         ipv4_address: "${POSTGRES_IP}"
+
+  tradehub-blockexplorer:
+    image: tradehub-blockexplorer
+    container_name: tradehub-blockexplorer
+    build:
+      context: explorer
+    ports:
+      - "${BLOCK_EXPLORER_PORT}:${BLOCK_EXPLORER_PORT}"
+    depends_on:
+      - tradehub-blockexplorer-db
+      - tradehub-sentry-node
+    environment:
+      ROOT_URL: ${APP_ROOT_URL:-http://0.0.0.0}
+      MONGO_URL: mongodb://tradehub-blockexplorer-db:27017/meteor
+      PORT: 3080
+    volumes:
+      - ./explorer/settings.json:/root/big-dipper/settings.json
+      - ./explorer/explorer-init.sh:/root/explorer-init.sh
+    networks:
+      tradehub:
+        ipv4_address: "${BLOCK_EXPLORER_IP}"
+
+  tradehub-blockexplorer-db:
+    image: mongo:latest
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - blockexplorer-data:/data/db
+    networks:
+      tradehub:
+        ipv4_address: "${BLOCK_EXPLORER_DB_IP}"
 
 networks:
   tradehub:

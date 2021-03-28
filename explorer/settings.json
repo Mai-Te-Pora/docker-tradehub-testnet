@@ -1,0 +1,106 @@
+{
+  "public": {
+    "chainName": "Tradehub",
+    "chainId": "test-chain-klw4Kk",
+    "stakingFraction": 100000000,
+    "slashingWindow": 3600,
+    "uptimeWindow": 100,
+    "initialPageSize": 30,
+    "secp256k1": false,
+    "bech32PrefixAccAddr": "swth",
+    "bech32PrefixAccPub": "swthpub",
+    "bech32PrefixValAddr": "swthvaloper",
+    "bech32PrefixValPub": "swthvaloperpub",
+    "bech32PrefixConsAddr": "swthvalcons",
+    "bech32PrefixConsPub": "swthvalconspub",
+    "bondDenom": "swth",
+    "coins": [
+      {
+        "denom": "swth",
+        "displayName": "SWTH",
+        "displayNamePlural": "SWTH",
+        "fraction": 100000000
+      },
+      {
+        "denom": "usdc",
+        "displayName": "USDC",
+        "displayNamePlural": "USDC",
+        "fraction": 1000000
+      },
+      {
+        "denom": "btc",
+        "displayName": "WBTC",
+        "displayNamePlural": "WBTC",
+        "fraction": 100000000
+      },
+      {
+        "denom": "eth",
+        "displayName": "ETH",
+        "displayNamePlural": "ETH",
+        "fraction": 1000000000000000000
+      },
+      {
+        "denom": "iusd",
+        "displayName": "IUSD",
+        "displayNamePlural": "IUSD",
+        "fraction": 100000000
+      },
+      {
+        "denom": "dai",
+        "displayName": "DAI",
+        "displayNamePlural": "DAI",
+        "fraction": 1000000000000000000
+      },
+      {
+        "denom": "nex",
+        "displayName": "NEX",
+        "displayNamePlural": "NEX",
+        "fraction": 100000000
+      },
+      {
+        "denom": "neo",
+        "displayName": "NEO",
+        "displayNamePlural": "NEO",
+        "fraction": 100000000
+      },
+      {
+        "denom": "gas",
+        "displayName": "GAS",
+        "displayNamePlural": "GAS",
+        "fraction": 100000000
+      },
+      {
+        "denom": "nexo",
+        "displayName": "NEXO",
+        "displayNamePlural": "NEXO",
+        "fraction": 1000000000000000000
+      }
+    ],
+    "gasPrice": 0.02,
+    "coingeckoId": "switcheo"
+  },
+  "genesisFile": "https://raw.githubusercontent.com/Mai-Te-Pora/docker-tradehub-testnet/master/config/genesis.json",
+  "remote": {
+    "rpc": "http://tradehub-sentry-node:26657",
+    "lcd": "http://tradehub-sentry-node:1317"
+  },
+  "mtp": {
+    "richListEndpointBaseUrl": "http://135.181.178.159:8001",
+    "priceEndpointBaseUrl": "http://135.181.178.159:8002"
+  },
+  "debug": {
+    "startTimer": true,
+    "readGenesis": true
+  },
+  "params": {
+    "startHeight": 0,
+    "defaultBlockTime": 1000,
+    "blockInterval": 15000,
+    "consensusInterval": 1000,
+    "statusInterval": 7500,
+    "signingInfoInterval": 1800000,
+    "proposalInterval": 5000,
+    "missedBlocksInterval": 60000,
+    "delegationInterval": 900000
+  }
+}
