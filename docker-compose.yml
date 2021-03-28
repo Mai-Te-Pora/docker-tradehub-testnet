@@ -109,7 +109,7 @@ services:
     environment:
       ROOT_URL: ${APP_ROOT_URL:-http://0.0.0.0}
       MONGO_URL: mongodb://tradehub-blockexplorer-db:27017/meteor
-      PORT: 3080
+      PORT: 3000
     volumes:
       - ./explorer/settings.json:/root/big-dipper/settings.json
       - ./explorer/explorer-init.sh:/root/explorer-init.sh
